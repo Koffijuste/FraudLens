@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { api, getToken, type DashboardData } from '@/lib/api'
+import { api, getToken, type DashboardData } from '../../lib/api'
 import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 const COLORS = { normal:'#10b981', suspect:'#f59e0b', fraude_probable:'#ef4444' }

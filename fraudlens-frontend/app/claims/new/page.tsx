@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { api, type CreateClaimBody } from '@/lib/api'
+import { api, type CreateClaimBody } from '../../../lib/api'
 
 const TYPES = ['accident_auto','accident_moto','incendie','vol','sante']
 

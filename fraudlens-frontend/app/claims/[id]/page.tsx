@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { api, getToken, type Claim } from '@/lib/api'
+import { api, getToken, type Claim } from '../../../lib/api'
 
 export default function ClaimDetailPage() {
   const router = useRouter()

@@ -11,7 +11,8 @@
     "mongoose": "^9.6.1",
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "recharts": "^3.8.1"
   },
   "name": "fraudlens_hackathon",
   "version": "1.0.0",

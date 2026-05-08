@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { api, getToken, type Claim } from '@/lib/api'
+import { api, getToken, type Claim } from '../../lib/api'
 
 const STATUTS = [
   { value:'', label:'Tous' },
