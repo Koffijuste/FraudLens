@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'FraudLens',
   description: 'Système intelligent de détection de fraude',
   icons: {
-    icon: '/icon.png',
+    icon: '/favicon.ico',
   },
 }
 

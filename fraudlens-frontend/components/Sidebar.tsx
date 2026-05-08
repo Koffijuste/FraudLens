@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { clearToken, getUser } from '../lib/api'
+import { useEffect, useState } from 'react'
 
 const nav = [
   {
@@ -73,13 +74,27 @@ const nav = [
 export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
-  const user = getUser()
+
+  const [mounted, setMounted] = useState(false)
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    setMounted(true)
+
+    const storedUser = getUser()
+
+    if (storedUser) {
+      setUser(storedUser)
+    }
+  }, [])
 
   const logout = () => {
     clearToken()
     localStorage.removeItem('fraudlens_user')
     router.push('/login')
   }
+
+  if (!mounted) return null
 
   return (
     <aside
@@ -115,13 +130,9 @@ export default function Sidebar() {
               width: 36,
               height: 36,
               borderRadius: 10,
-              background: 'var(--primary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px #2563eb33',
-              flexShrink: 0,
               overflow: 'hidden',
+              flexShrink: 0,
+              boxShadow: '0 4px 12px #2563eb33',
             }}
           >
             <Image
@@ -129,13 +140,13 @@ export default function Sidebar() {
               alt="FraudLens"
               width={36}
               height={36}
+              priority
             />
           </div>
 
           <div>
             <div
               style={{
-                fontFamily: 'var(--font-display)',
                 fontWeight: 700,
                 fontSize: 17,
                 color: 'var(--text)',
@@ -165,7 +176,7 @@ export default function Sidebar() {
           padding: '16px 12px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 2,
+          gap: 4,
         }}
       >
         <div
@@ -193,35 +204,25 @@ export default function Sidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 10,
-                padding: '9px 12px',
-                borderRadius: 'var(--r-md)',
+                padding: '10px 12px',
+                borderRadius: 12,
                 textDecoration: 'none',
-                transition: 'all .15s',
+                transition: '0.2s',
                 background: active
                   ? 'var(--blue-50)'
                   : 'transparent',
                 color: active
                   ? 'var(--primary)'
                   : 'var(--text-secondary)',
-                fontWeight: active ? 600 : 400,
+                fontWeight: active ? 600 : 500,
                 fontSize: 14,
               }}
-              onMouseEnter={(e) => {
-                if (!active) {
-                  ;(e.currentTarget as HTMLElement).style.background =
-                    'var(--bg-subtle)'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!active) {
-                  ;(e.currentTarget as HTMLElement).style.background =
-                    'transparent'
-                }
-              }}
             >
-              <span style={{ flexShrink: 0 }}>{item.icon}</span>
+              <span style={{ flexShrink: 0 }}>
+                {item.icon}
+              </span>
 
-              {item.label}
+              <span>{item.label}</span>
 
               {active && (
                 <div
@@ -251,15 +252,15 @@ export default function Sidebar() {
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            padding: '8px 12px',
-            borderRadius: 'var(--r-md)',
+            padding: '10px 12px',
+            borderRadius: 12,
             background: 'var(--bg-subtle)',
           }}
         >
           <div
             style={{
-              width: 32,
-              height: 32,
+              width: 34,
+              height: 34,
               borderRadius: '50%',
               background: 'var(--blue-100)',
               display: 'flex',
@@ -275,11 +276,16 @@ export default function Sidebar() {
                 color: 'var(--primary)',
               }}
             >
-              {user?.nom?.[0]?.toUpperCase() ?? 'U'}
+              {user?.nom?.charAt(0)?.toUpperCase() || 'U'}
             </span>
           </div>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
             <div
               style={{
                 fontSize: 13,
@@ -290,7 +296,7 @@ export default function Sidebar() {
                 textOverflow: 'ellipsis',
               }}
             >
-              {user?.nom ?? 'Utilisateur'}
+              {user?.nom || 'Utilisateur'}
             </div>
 
             <div
@@ -300,7 +306,7 @@ export default function Sidebar() {
                 textTransform: 'capitalize',
               }}
             >
-              {user?.role ?? 'agent'}
+              {user?.role || 'Agent'}
             </div>
           </div>
 
@@ -314,13 +320,6 @@ export default function Sidebar() {
               color: 'var(--text-muted)',
               padding: 4,
               borderRadius: 6,
-              transition: 'color .15s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = 'var(--danger)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'var(--text-muted)'
             }}
           >
             <svg
