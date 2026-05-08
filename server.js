@@ -38,15 +38,15 @@ app.get('/', (req, res) => {
   })
 })
 
+// Gestion des routes inconnues
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: `Route ${req.originalUrl} introuvable.` })
+})
+
 // Gestion globale des erreurs
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({ success: false, message: err.message || 'Erreur serveur.' })
-})
-
-// Gestion des routes inconnues (doit être après les autres middlewares)
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.originalUrl} introuvable.` })
 })
 
 const PORT = process.env.PORT || 3000

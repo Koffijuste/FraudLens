@@ -4,10 +4,12 @@ const { createClaim, getClaims, getClaim, updateDecision, deleteClaim } = requir
 const { protect, authorize } = require('../middleware/auth')
 const upload = require('../middleware/upload')
 
-router.get('/', protect, getClaims)
-router.post('/', protect, upload.array('documents', 5), createClaim)
-router.get('/:id', protect, getClaim)
-router.patch('/:id/decision', protect, updateDecision)
-router.delete('/:id', protect, authorize('admin'), deleteClaim)
+router.use(protect)
+
+router.get('/', getClaims)
+router.post('/', upload.array('documents', 5), createClaim)
+router.get('/:id', getClaim)
+router.patch('/:id/decision', updateDecision)
+router.delete('/:id', authorize('admin'), deleteClaim)
 
 module.exports = router
