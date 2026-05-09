@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { clearToken, getUser } from '../lib/api'
 import { useEffect, useState } from 'react'
+import { useTheme } from '../lib/theme'
+
 
 const nav = [
   {
@@ -77,6 +79,9 @@ export default function Sidebar() {
 
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState<any>(null)
+
+  const { theme, toggle } = useTheme()
+  const isDark = theme === 'dark'
 
   useEffect(() => {
     setMounted(true)
@@ -239,6 +244,30 @@ export default function Sidebar() {
           )
         })}
       </nav>
+
+        {/* Theme toggle */}
+  <div style={{ padding: '0 12px 10px' }}>
+    <button onClick={toggle} style={{
+      width: '100%', display: 'flex', alignItems: 'center',
+      justifyContent: 'space-between', padding: '10px 12px',
+      borderRadius: 12, background: 'var(--bg-subtle)',
+      border: '1px solid var(--border)', cursor: 'pointer',
+    }}>
+      <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+        <span style={{ fontSize:15 }}>{isDark ? '☀️' : '🌙'}</span>
+        <span style={{ fontSize:13, color:'var(--text-secondary)' }}>
+          {isDark ? 'Mode clair' : 'Mode sombre'}
+        </span>
+      </div>
+      <div style={{ width:36, height:20, borderRadius:10, position:'relative',
+        background: isDark ? 'var(--primary)' : 'var(--border)',
+        transition: 'background .25s' }}>
+        <div style={{ width:14, height:14, borderRadius:'50%', background:'white',
+          position:'absolute', top:3, left: isDark ? 19 : 3,
+          transition:'left .25s', boxShadow:'0 1px 3px rgba(0,0,0,.2)' }} />
+      </div>
+    </button>
+  </div>
 
       {/* User */}
       <div
